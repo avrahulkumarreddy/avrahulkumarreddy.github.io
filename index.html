@@ -3,32 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Effect - GitHub Website</title>
+    <title>3D GitHub Website with Ping</title>
     <style>
         body {
             margin: 0;
             height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             background: linear-gradient(135deg, #1e90ff, #ff69b4);
             overflow: hidden;
             font-family: Arial, sans-serif;
+            color: #fff;
         }
 
         .text-container {
-            position: relative;
             font-size: 2rem;
-            color: #fff;
             font-weight: bold;
             transform-style: preserve-3d;
             animation: rotate 5s infinite linear;
-        }
-
-        .text-container span {
-            display: inline-block;
-            position: absolute;
-            transform: translateZ(0px);
+            text-align: center;
         }
 
         @keyframes rotate {
@@ -48,11 +43,45 @@
                 transform: rotateX(0deg) rotateY(0deg);
             }
         }
+
+        .ping-container {
+            margin-top: 20px;
+            font-size: 1.5rem;
+        }
+
+        .ping-status {
+            color: #ff0;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <div class="text-container">
-        <span>Your GitHub Website is Working</span>
+        Your GitHub Website is Working
     </div>
+    <div class="ping-container">
+        <span>Pinging <strong>10.0.0.59</strong>... <span id="ping-status" class="ping-status">Checking...</span></span>
+    </div>
+
+    <script>
+        async function pingServer() {
+            const pingStatus = document.getElementById("ping-status");
+            const startTime = performance.now();
+            
+            try {
+                // Make a fetch request to simulate ping
+                await fetch("https://10.0.0.59", { mode: "no-cors" });
+                const latency = Math.round(performance.now() - startTime);
+                pingStatus.textContent = `Success! Latency: ${latency} ms`;
+                pingStatus.style.color = "#0f0";
+            } catch (error) {
+                pingStatus.textContent = "Failed!";
+                pingStatus.style.color = "#f00";
+            }
+        }
+
+        // Run the ping function on page load
+        pingServer();
+    </script>
 </body>
 </html>
